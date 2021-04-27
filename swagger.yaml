@@ -1,0 +1,1071 @@
+swagger: "2.0"
+info:
+  description: ""
+  version: "1.0.0"
+  title: "Micro Service Project - Coalition"
+host: "coalition.com"
+basePath: "/api/"
+tags:
+  - name: "User"
+    description: "Contains all users informations such as names, email or username"
+  - name: "Server"
+    description: "Contains all servers informations such as names"
+  - name: "Server/Member"
+    description: "Contains all members of servers informations"
+  - name: "Server/Channel"
+    description: "Contains all channels of servers informations"
+  - name: "Group"
+    description: "Contains all groups informations"
+  - name: "Group/Member"
+    description: "Contains all members of groups informations"
+  - name: "Conversation"
+    description: "Contains all conversations informations"
+  - name: "Conversation/Messages"
+    description: "Contains all messages informations"
+schemes:
+  - "https"
+  - "http"
+paths:
+  /users/status:
+    get:
+      tags: 
+        - "User"
+      summary : "Get service name"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              service:
+                type: "string"
+                default: "User"
+  /users/:
+    post:
+      tags:
+        - "User"
+      summary: "Create new user"
+      description: ""
+      operationId: "createNewUser"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "User details"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              firstname:
+                type: "string"
+              lastname:
+                type: "string"
+              username:
+                type: "string"
+              email:
+                type: "string"
+              password:
+                type: "string"
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              userID:
+                type: integer
+                description: "userID of created user"
+        "409":
+          description: "email already registered"
+        "500":
+          description: "Internal server error"
+    get:
+      tags:
+        - "User"
+      summary: "Get all users"
+      operationId: "getUserInfo"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              type : object
+              properties:
+                userID:
+                  type: integer
+                firstname:
+                  type: string
+                lastname:
+                  type: string
+                username:
+                  type: string
+                email:
+                  type: string
+                created:
+                  type: string
+                  description: "created datetime"
+        "500":
+          description: "Internal server error"
+  /users/{userID}:
+    parameters:
+      - name: "userID"
+        in: path
+        description: "ID of user"
+        required: true
+        type: integer
+    get:
+      tags:
+        - "User"
+      summary: "Get user by ID"
+      operationId: "getUserInfo"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              firstname:
+                type: string
+              lastname:
+                type: string
+              username:
+                type: string
+              email:
+                type: string
+              created:
+                type: string
+        "404":
+          description: "User not found"
+        "500":
+          description: "Internal server error"
+    delete:
+      tags:
+        - "User"
+      summary: "Delete user by ID"
+      operationId: "deleteUser"
+      produces:
+        - "application/json"
+      responses:
+        "204":
+          description: "successful operation"
+        "404":
+          description: "User not found"
+        "500":
+          description: "Internal server error"
+  /users/login:
+    post:
+      tags:
+        - "User"
+      summary : "Login"
+      produces :
+        - "application/json"
+      parameters:
+        - in: body
+          name : "body"
+          required: true
+          schema:
+            type: object
+            properties: 
+              email:
+                type: "string"
+              password:
+                type: "string"
+      responses:
+        "200" :
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              userID:
+                type: integer
+        "401":
+          description: "Wrong password"
+        "404":
+          description: "User not found"
+        "500":
+          description: "Internal server error"
+  /servers/status:
+    get:
+      tags: 
+        - "Server"
+      summary : "Get service name"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              service:
+                type: "string"
+                default: "Server"
+  /servers:
+    post:
+      tags:
+        - "Server"
+      summary : "Create server"
+      produces :
+        - "application/json"
+      parameters:
+        - in: body
+          name : "body"
+          required: true
+          schema:
+            type: object
+            properties: 
+              ownerID:
+                type: integer
+              serverName:
+                type: "string"
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              userID:
+                type: integer
+        "404":
+          description: "User not found"
+        "500":
+          description: "Internal server error"
+    get:
+      tags:
+        - "Server"
+      summary: "Get all servers"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description:  "successful operation"
+          schema:
+            type : array
+            items:
+              type: object
+              properties:
+                server_id: 
+                  type : integer
+                server_name:
+                  type : string
+                owner_id :
+                  type : integer
+                created_at :
+                  type : string
+                updated_at :
+                  type: string
+        "500":
+          description: "Internal server error"
+
+  /servers/{serverID}:
+    parameters:
+      - name: "serverID"
+        in: path
+        description: "ID of server"
+        required: true
+        type: integer
+    get:
+      tags:
+        - "Server"
+      summary: "Get all servers"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description:  "successful operation"
+          schema:
+            type: object
+            properties:
+              server_name:
+                type : string
+              owner_id :
+                type : integer
+              created_at :
+                type : string
+              updated_at :
+                type: string
+        "404":
+          description:  "Server not found"
+        "500":
+          description: "Internal server error"
+    put:
+      tags:
+        - "Server"
+      summary: "Change server by ID"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name : "body"
+          required: true
+          schema:
+            type: object
+            properties: 
+              userID:
+                type: integer
+              serverName:
+                type: string
+      responses:
+        "200":
+          description:  "successful operation"
+        "403":
+          description:  "Access forbidden"
+        "404":
+          description:  "Server or User not found"
+        "500":
+          description: "Internal server error"
+    delete:
+      tags:
+        - "Server"
+      summary: "Delete server by ID"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name : "body"
+          required: true
+          schema:
+            type: object
+            properties: 
+              userID:
+                type: integer
+      responses:
+        "204":
+          description:  "successful operation"
+        "403":
+          description:  "Access forbidden"
+        "404":
+          description:  "Server or User not found"
+        "500":
+          description: "Internal server error"
+
+  /servers/members:
+    post:
+      tags:
+        - "Server/Member"
+      summary : "Add user to server"
+      produces :
+        - "application/json"
+      parameters:
+        - in: body
+          name : body
+          required: true
+          schema:
+            type: object
+            properties: 
+              serverID:
+                type: integer
+              userID:
+                type: integer
+      responses:
+        "201":
+          description: "successful operation"
+        "404":
+          description: "User or Server not found"
+        "500":
+          description: "Internal server error"
+    get:
+      tags:
+        - "Server/Member"
+      summary: "Get all members of all servers"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description:  "successful operation"
+          schema:
+            type : array
+            items:
+              type: object
+              properties:
+                server_id: 
+                  type : integer
+                user_id :
+                  type : integer
+                created_at :
+                  type : string
+        "500":
+          description: "Internal server error"
+    delete:
+      tags:
+        - "Server/Member"
+      summary : "Delete member from server"
+      produces :
+        - "application/json"
+      parameters:
+        - in: body
+          name : body
+          required: true
+          schema:
+            type: object
+            properties: 
+              serverID:
+                type: integer
+              userID:
+                type: integer
+      responses:
+        "204":
+          description: "successful operation"
+        "404":
+          description: "Server or User not found / User is not member"
+        "500":
+          description: "Internal server error"
+
+  /servers/members/server/{serverID} :
+    get :
+      tags:
+      - "Server/Member"
+      summary: "Get all members of a server"
+      produces:
+        - "application/json"
+      parameters:
+      - name: "serverID"
+        in: path
+        description: "ID of server"
+        required: true
+        type: integer
+      responses:
+        "200":
+          description:  "successful operation"
+          schema:
+            type : array
+            items:
+              type: object
+              properties:
+                user_id :
+                  type : integer
+                created_at :
+                  type : string
+        "404":
+          description: "Server not found"
+        "500":
+          description: "Internal server error"
+
+  /servers/members/user/{userID} :
+    get :
+      tags:
+      - "Server/Member"
+      summary: "Get all servers of a user"
+      produces:
+        - "application/json"
+      parameters:
+      - in: path
+        name: "userID"
+        description: "ID of user"
+        required: true
+        type: integer
+      responses:
+        "200":
+          description:  "successful operation"
+          schema:
+            type : array
+            items:
+              type: object
+              properties:
+                server_id :
+                  type : integer
+                created_at :
+                  type : string
+        "404":
+          description: "User not found"
+        "500":
+          description: "Internal server error"
+  /servers/channels/:
+    post:
+      tags:
+        - "Server/Channel"
+      summary : "Add channel to server"
+      produces :
+        - "application/json"
+      parameters:
+        - in: body
+          name : body
+          required: true
+          schema:
+            type: object
+            properties: 
+              serverID:
+                type: integer
+              userID:
+                type: integer
+              channelName:
+                type: string
+      responses:
+        "201":
+          description: "successful operation"
+        "403":
+          description: "Permission denied"
+        "404":
+          description: "User or Server not found"
+        "500":
+          description: "Internal server error"
+    get:
+      tags:
+        - "Server/Channel"
+      summary: "Get all channels of all servers"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description:  "successful operation"
+          schema:
+            type : array
+            items:
+              type: object
+              properties:
+                server_id :
+                  type: integer
+                conv_id :
+                  type: integer
+                channel_name :
+                  type: string
+                created_at :
+                  type: string
+                updated_at :
+                  type: string
+        "500":
+          description: "Internal server error"
+    delete:
+      tags:
+        - "Server/Channel"
+      summary : "Delete channel from server"
+      produces :
+        - "application/json"
+      parameters:
+        - in: body
+          name : body
+          required: true
+          schema:
+            type: object
+            properties: 
+              serverID:
+                type: integer
+              userID:
+                type: integer
+              convID:
+                type: integer
+      responses:
+        "204":
+          description: "successful operation"
+        "403":
+          description: "Permission denied"
+        "404":
+          description: "Server, User or Channel not found"
+        "500":
+          description: "Internal server error"
+  /servers/channels/server/{serverID} :
+    get :
+      tags:
+      - "Server/Channel"
+      summary: "Get all channels of a server"
+      produces:
+        - "application/json"
+      parameters:
+      - in: path
+        name: "serverID"
+        description: "ID of server"
+        required: true
+        type: integer
+      - in : body
+        name : body
+        required: true
+        schema:
+          type: object
+          properties: 
+            userID:
+              type: integer
+      responses:
+        "200":
+          description:  "successful operation"
+          schema:
+            type : array
+            items:
+              type: object
+              properties:
+                conv_id :
+                  type: integer
+                channel_name :
+                  type: string
+                created_at :
+                  type: string
+                updated_at :
+                  type: string
+        "403":
+          description: "Permission denied"
+        "404":
+          description: "Server or User not found"
+        "500":
+          description: "Internal server error"
+  /groups/status:
+    get:
+      tags: 
+        - "Group"
+      summary : "Get service name"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              service:
+                type: "string"
+                default: "Group"
+  /groups:
+    post:
+      tags:
+        - "Group"
+      summary : "Create group"
+      produces :
+        - "application/json"
+      parameters:
+        - in: body
+          name : "body"
+          required: true
+          schema:
+            type: object
+            properties: 
+              ownerID:
+                type: integer
+              groupName:
+                type: "string"
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              groupID:
+                type: integer
+        "404":
+          description: "User not found"
+        "500":
+          description: "Internal server error"
+    get:
+      tags:
+        - "Group"
+      summary: "Get all groups"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description:  "successful operation"
+          schema:
+            type : array
+            items:
+              type: object
+              properties:
+                group_id: 
+                  type : integer
+                group_name:
+                  type : string
+                owner_id :
+                  type : integer
+                conv_id :
+                  type : integer
+                created_at :
+                  type : string
+                updated_at :
+                  type: string
+        "500":
+          description: "Internal server error"
+  /groups/{groupID}:
+    parameters:
+      - name: "groupID"
+        in: path
+        description: "ID of group"
+        required: true
+        type: integer
+    get:
+      tags:
+        - "Group"
+      summary: "Get a group"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description:  "successful operation"
+          schema:
+            type: object
+            properties:
+              server_name:
+                type : string
+              owner_id :
+                type : integer
+              conv_id:
+                type: integer
+              created_at :
+                type : string
+              updated_at :
+                type: string
+        "404":
+          description:  "Group not found"
+        "500":
+          description: "Internal server error"
+    put:
+      tags:
+        - "Group"
+      summary: "Change group by ID"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name : "body"
+          required: true
+          schema:
+            type: object
+            properties: 
+              userID:
+                type: integer
+              groupName:
+                type: string
+      responses:
+        "200":
+          description:  "successful operation"
+        "403":
+          description:  "Access forbidden"
+        "404":
+          description:  "Group or User not found"
+        "500":
+          description: "Internal server error"
+    delete:
+      tags:
+        - "Group"
+      summary: "Delete group by ID"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name : "body"
+          required: true
+          schema:
+            type: object
+            properties: 
+              userID:
+                type: integer
+      responses:
+        "204":
+          description:  "successful operation"
+        "403":
+          description:  "Access forbidden"
+        "404":
+          description:  "Group or User not found"
+        "500":
+          description: "Internal server error"
+  /groups/members:
+    post:
+      tags:
+        - "Group/Member"
+      summary : "Add user to group"
+      produces :
+        - "application/json"
+      parameters:
+        - in: body
+          name : body
+          required: true
+          schema:
+            type: object
+            properties: 
+              groupID:
+                type: integer
+              userID:
+                type: integer
+      responses:
+        "201":
+          description: "successful operation"
+        "404":
+          description: "User or Group not found"
+        "500":
+          description: "Internal server error"
+    get:
+      tags:
+        - "Group/Member"
+      summary: "Get all members of all groups"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description:  "successful operation"
+          schema:
+            type : array
+            items:
+              type: object
+              properties:
+                group_id: 
+                  type : integer
+                user_id :
+                  type : integer
+                created_at :
+                  type : string
+        "500":
+          description: "Internal server error"
+    delete:
+      tags:
+        - "Group/Member"
+      summary : "Delete member from group"
+      produces :
+        - "application/json"
+      parameters:
+        - in: body
+          name : body
+          required: true
+          schema:
+            type: object
+            properties: 
+              groupID:
+                type: integer
+              userID:
+                type: integer
+      responses:
+        "204":
+          description: "successful operation"
+        "404":
+          description: "Group or User not found / User is not member"
+        "500":
+          description: "Internal server error"
+
+  /groups/members/group/{groupID} :
+    get :
+      tags:
+        - "Group/Member"
+      summary: "Get all members of a group"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "groupID"
+          in: path
+          description: "ID of group"
+          required: true
+          type: integer
+      responses:
+        "200":
+          description:  "successful operation"
+          schema:
+            type : array
+            items:
+              type: object
+              properties:
+                user_id :
+                  type : integer
+                created_at :
+                  type : string
+        "404":
+          description: "Group not found"
+        "500":
+          description: "Internal server error"
+
+  /groups/members/user/{userID} :
+    get :
+      tags:
+        - "Group/Member"
+      summary: "Get all groups of a user"
+      produces:
+        - "application/json"
+      parameters:
+        - in: path
+          name: "userID"
+          description: "ID of user"
+          required: true
+          type: integer
+      responses:
+        "200":
+          description:  "successful operation"
+          schema:
+            type : array
+            items:
+              type: object
+              properties:
+                group_id :
+                  type : integer
+                created_at :
+                  type : string
+        "404":
+          description: "User not found"
+        "500":
+          description: "Internal server error"
+  
+  /conversations/status:
+    get:
+      tags: 
+        - "Conversation"
+      summary : "Get service name"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              service:
+                type: "string"
+                default: "Messages"
+  /conversations :
+    post:
+      tags:
+        - "Conversation"
+      summary : "Create a conversation"
+      produces :
+        - "application/json"
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            type: object
+            properties:
+              convID :
+                type : integer
+        "500":
+          description: "Internal server error"
+    get:
+      tags:
+        - "Conversation"
+      summary : "Get all conversations"
+      produces :
+        - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                convID :
+                  type : integer
+        "500":
+          description: "Internal server error"
+  /conversations/{convID}:
+    parameters:
+      - name: "convID"
+        in: path
+        description: "ID of conversation"
+        required: true
+        type: integer
+    post:
+      tags:
+        - "Conversation/Messages"
+      summary : "Add message in a conversation"
+      produces :
+        - "application/json"
+      parameters:
+        - in: body
+          name : body
+          required: true
+          schema:
+            type: object
+            properties: 
+              userID:
+                type: integer
+              message:
+                type: string
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            type: object
+            properties:
+              messageID :
+                type : integer
+        "404":
+          description: "User or Conversation not found"
+        "409":
+          description: "Error"
+        "500":
+          description: "Internal server error"
+    get:
+      tags:
+      - "Conversation/Messages"
+      summary: "Get all messages of a conversation"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description:  "successful operation"
+          schema:
+            type : array
+            items:
+              type: object
+              properties:
+                messageID :
+                  type : integer
+                userID :
+                  type : integer
+                message:
+                  type : string
+                created :
+                  type : string
+        "404":
+          description: "Conversation not found"
+        "500":
+          description: "Internal server error"
+  /conversations/{convID}/{messageID}:
+    parameters:
+      - name: "convID"
+        in: path
+        description: "ID of conversation"
+        required: true
+        type: integer
+      - name: "messageID"
+        in: path
+        description: "ID of message"
+        required: true
+        type: integer
+    get:
+      tags:
+      - "Conversation/Messages"
+      summary: "Get a message by ID"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description:  "successful operation"
+          schema:
+            type : array
+            items:
+              type: object
+              properties:
+                userID :
+                  type : integer
+                message:
+                  type : string
+                created :
+                  type : string
+        "404":
+          description: "Conversation not found"
+        "500":
+          description: "Internal server error"
+
+    delete:
+      tags:
+        - "Conversation/Messages"
+      summary: "Delete message by ID"
+      parameters:
+        - in: body
+          name : body
+          required: true
+          schema:
+            type: object
+            properties: 
+              userID:
+                type: integer
+      produces:
+        - "application/json"
+      responses:
+        "204":
+          description: "successful operation"
+        "403":
+          description: "Permission denied"
+        "404":
+          description: "User or Message not found / Message not in conversation"
+        "500":
+          description: "Internal server error"

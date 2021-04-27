@@ -1,0 +1,96 @@
+'use strict';
+const express = require('express');
+var sqlite3 = require('sqlite3').verbose();
+var bodyParser = require('body-parser');
+var sha256 = require('sha256');
+var randomstring = require("randomstring");
+
+// Connection to db file
+let db = new sqlite3.Database('./data/message.db');
+db.serialize(function() {
+	db.run("CREATE TABLE Conv(convID INTEGER PRIMARY KEY AUTOINCREMENT, convName VARCHAR(255))", (err)=>{});
+	db.run("CREATE TABLE Message(convID INTEGER, userID INTEGER, message VARCHAR(2000), datetime DATETIME)",(err)=>{});
+})
+
+const PORT = 8080;
+const HOST = '0.0.0.0';
+
+// Starting server
+const app = express();
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
+app.get('/api/messages/status', (req, res) => {
+	res.status(200).json({"service":"Messages"});
+});
+
+app.get('/api/messages/:convID/list',(req,res)=>{
+	var convID = req.params.convID;
+	db.all("SELECT * FROM Message WHERE convID = ?;",[userID],(err,rows)=>{
+		if(err){
+			console.log(err);
+			res.status(500).json({});
+		}else if(rows.length>0){
+			res.status(200).json(rows);
+		}
+	})
+});
+
+app.post("/api/user/:convID/new",(req,res)=>{
+	var convID = req.params.convID;
+	var userID = req.body.userID;
+	var message = req.body.message;
+	db.run("INSERT INTO Message(convID,userID,messageID,lastname,username,email,password_hash,salt,created) VALUES(?,?,?,?,?,?,DATETIME('now'));",[firstname,lastname,username,email,hash,salt],function(err){
+		if(err){
+			console.log(err);
+			if(err.errno==19){
+				res.status(409).json({});
+			}else{
+				res.status(500).json({});
+			}
+		}else{
+			res.status(200).json({
+				"userID": this.lastID
+			});
+		}
+	})
+});
+
+app.post("/api/user/:userID/remove",(req,res)=>{
+	var userID = req.params.userID;
+	db.run("DELETE FROM Users WHERE userID = ?;",[userID],(err,rows)=>{
+		if(err){
+			console.log(err)
+			res.status(500).json({});
+		}else{
+			res.status(200).json({});
+		}
+	})
+});
+
+app.post("/api/user/login",(req,res)=>{
+	var email = req.body.email;
+	var password = req.body.password;
+	db.all("SELECT userID,password_hash,salt FROM Users WHERE email = ?;",[email],function(err,rows){
+		if(err){
+			console.log(err);
+			res.status(500).json({});
+		}else{
+			if(rows.length>0){
+				var hash = sha256(password+rows[0].salt);
+				if(hash==rows[0].password_hash){
+					res.status(200).json({
+						"userID": rows[0].userID
+					});
+				}else{
+					res.status(401).json({});
+				}
+			}else{
+				res.status(404).json({});
+			}
+		}
+	})
+})
+
+app.listen(PORT, HOST);
+console.log(`Running on http://${HOST}:${PORT}`);

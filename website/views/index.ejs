@@ -1,0 +1,214 @@
+<head>
+  <link href="cover.css" rel="stylesheet">
+</head>
+
+<body>
+  <div id="header">
+    <p id="titre">Coucou <%= username %> !</p>
+    <img src="cat.jpg_medium" id="image">
+    <form action="/logout">
+      <button type="submit" id="logout">Déconnexion</button>
+    </form>
+  </div>
+
+  <div id="servers">
+    <div class="header-small">Mes serveurs</div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script>
+    // TODO retrieve userID
+      let userID = "<%= userID %>";
+
+      function retrieveUser() {
+        try{
+          $.ajax({
+            type: "GET",
+            url: '/api/users/',
+            async: false,
+            success: function (data) {
+              Console.log(data);
+              userID = data[0].userID;
+
+              if(data[0].userID == null) userID = 0;
+            },
+            error: function (xhr, ajaxOptions, thrownError){
+              console.log(xhr)
+              if(xhr.status==404){
+                alert("Impossible de récupérer les utilisateurs.");
+              }else{
+                alert("Une erreur inconnue est survenue.");
+              }
+            } 
+          })
+      
+        }catch(err){
+          console.log(err);
+        }
+
+                
+      }
+
+	  function getServers(){
+		  try{
+			  $.ajax({
+				  type: "GET",
+				  url: '/api/servers/members/user/' + userID,
+				  async: false,
+				  data: 'userID' + userID,
+				  success: function (data) {
+            Console.log(data);
+            displayData(data);
+					  //$("#serverID").append(data);
+				  },
+				  error: function (xhr, ajaxOptions, thrownError){
+					  console.log(xhr)
+					  if(xhr.status==404){
+						  alert("Impossible d'afficher les serveurs : l'utilisateur n'existe pas.");
+					  }else{
+						  alert("Une erreur inconnue est survenue.");
+					  }
+				  } 
+			  })
+		
+		  }catch(err){
+			  console.log(err);
+		  }
+	  }
+
+    window.onload = getServers;
+    div = document.getElementById('serverID');
+
+    function displayData(d) {
+      // display servers: channel_name (id) + image
+      servers = [];
+      i = 0;
+
+      if(d.length == 0) { // could not retrieve data or data is empty
+        // mock server
+        servers[0] = "mock server";
+      }
+      else {
+        for(; i < d.length; i++) {
+          servers[i] = d[i].channel_name;
+        }
+      }
+      
+      for(i = 0; i < servers.length; i++) {
+        // add default image + server name + css style
+        div.innerHTML += "<img src=" + "'dl.png'" + "class=" + "'image-big'" + "><div class=" + "'server'>" + servers[i] + "</div>"; 
+      }
+
+      console.log("servers ready")
+    }
+  </script>
+    <div class="container-grid" id="serverID">
+      <img src="puppyworld.jpg" class="image-big">
+      <div class="server">/!\ DOGS ONLY /!\</div>
+    </div>
+  </div>
+
+  <div id="messages">
+    <div class="header-small">Mes groupes</div>
+    <script>
+      // TODO retrieve userID
+      let userID = "<%= userID %>";
+
+      function retrieveUser() {
+        try{
+          $.ajax({
+            type: "GET",
+            url: '/api/users/',
+            async: false,
+            success: function (data) {
+              Console.log(data);
+              userID = data[0].userID;
+
+              if(data[0].userID == null) userID = 0;
+            },
+            error: function (xhr, ajaxOptions, thrownError){
+              console.log(xhr)
+              if(xhr.status==404){
+                alert("Impossible de récupérer les utilisateurs.");
+              }else{
+                alert("Une erreur inconnue est survenue.");
+              }
+            } 
+          })
+      
+        }catch(err){
+          console.log(err);
+        }
+
+
+      }
+	  
+      function getGroups(){
+        try{
+          $.ajax({
+            type: "GET",
+            url: '/api/groups/members/user/' + userID,
+            async: false,
+            data: 'userID' + userID,
+            success: function () {
+              Console.log(data);
+              //$("#groupID").append(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError){
+              console.log(xhr)
+              if(xhr.status==404){
+                alert("Impossible d'afficher les groupes : l'utilisateur n'existe pas.");
+              }else{
+                alert("Une erreur inconnue est survenue.");
+              }
+            } 
+          })
+      
+        }catch(err){
+          console.log(err);
+        }
+      }
+
+    window.onload = getGroups;
+    div2 = document.getElementById('groupID');
+
+    function displayData(d) {
+      // display servers: channel_name (id) + image
+      groups = [];
+      i = 0;
+
+      if(d.length == 0) { // could not retrieve data or data is empty
+        // mock server
+        groups[0] = "mock group";
+      }
+      else {
+        for(; i < d.length; i++) {
+          groups[i] = d[i].group_name;
+        }
+      }
+      
+      for(i = 0; i < servers.length; i++) {
+        // add default image + server name + css style
+        div2.innerHTML += "<img src=" + "'dl.png'" + "class=" + "'image-big'" + "><div class=" + "'message'>" + groups[i] + "</div>"; 
+      }
+
+      console.log("groups ready")
+    }
+    </script>
+    <div class="container-grid" id="groupID">
+      <img src="mouse.jpg" class="image-big">
+      <div class="message">La revolucion</div>
+    </div>
+    <div class="container-grid">
+      <img src="sofa.jpg" class="image-big">
+      <div class="message">Litiere</div>
+    </div>
+  </div>
+
+  <div id="friends">
+    <img src="sadcat.jpg" class="imagefriend">
+    <div class="friend">Jiaou</div>
+    <img src="catfood.jfif" class="imagefriend">
+    <div class="friend">Chloe</div>
+    <img src="straightfacecat.jpg" class="imagefriend">
+    <div class="friend">Bernard</div>
+  </div>
+</body>

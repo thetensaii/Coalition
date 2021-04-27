@@ -1,0 +1,24 @@
+server {
+	listen [::]:80;
+	listen 80;
+
+	location /api/auth/ {
+		proxy_pass http://auth/api/auth/;
+	}
+
+	location /api/users/ {
+		proxy_pass http://user/api/users/;
+	}
+	
+	location /api/servers/ {
+		proxy_pass http://server/api/servers/;
+	}
+
+	location /api/conversations/ {
+		proxy_pass http://conversation/api/conversations/;
+	}
+
+	location /api/groups/ {
+		proxy_pass http://group/api/groups/;
+	}
+}

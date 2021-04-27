@@ -1,0 +1,37 @@
+version: "3.8"
+services:
+  website:
+    image: coalition/website
+    build: ./website/
+    ports:
+      - 3000:3000
+    environment:
+      - SESSION_SECRET=$SESSION_SECRET
+  dispatcher:
+    image: coalition/dispatcher
+    build: ./Dispatcher/
+    ports:
+      - 8080:80
+  auth:
+    image: coalition/auth
+    build: ./Auth/
+  user:
+    image: coalition/user
+    build: ./User/
+    volumes:
+      - $CURRENT_VOLUMES:/usr/src/app/data/
+  server:
+    image: coalition/server
+    build: ./Server/
+    volumes:
+      - $CURRENT_VOLUMES:/usr/src/app/data/
+  conversation:
+    image: coalition/conversation
+    build: ./Conversation/
+    volumes:
+      - $CURRENT_VOLUMES:/usr/src/app/data/
+  group:
+    image: coalition/group
+    build: ./Group/
+    volumes:
+      - $CURRENT_VOLUMES:/usr/src/app/data/

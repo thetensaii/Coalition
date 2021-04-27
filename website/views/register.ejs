@@ -1,0 +1,72 @@
+<head>
+  <link href="cover.css" rel="stylesheet">
+</head>
+
+<body>
+<h1 id="register">S'enregistrer</h1>
+<form action="/register" method="POST" class="form-style" onsubmit="register();return false;">
+  <div class="form-field">
+    <label for="lastname" class="field-individual">Nom</label>
+    <br>
+    <input type="text" id="lastname" name="lastname" required class="field">
+  </div>
+  <div class="form-field">
+    <label for="firstname" class="field-individual">Prénom</label>
+    <br>
+    <input type="text" id="firstname" name="firstname" required class="field">
+  </div>
+  <div class="form-field">
+    <label for="username" class="field-individual">Nom d'utilisateur</label>
+    <br>
+    <input type="text" id="username" name="username" required class="field">
+  </div>
+  <div class="form-field">   
+    <label for="email" class="field-individual">Email</label>
+    <br>
+    <input type="email" id="email" name="email" required class="field">
+  </div>
+  <div class="form-field">
+    <label for="password" class="field-individual">Mot de passe</label>
+    <br>
+    <input type="password" id="password" name="password" required class="field">
+  </div>
+  <button type="submit" class="bouton-send">Envoyer</button>
+</form>
+<a href="/login" class="stylelink connexion">Connexion</a>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+	function register(){
+		try{
+			$.ajax({
+				type: "POST",
+				url: '/api/register',
+				dataType: 'json',
+				contentType: 'application/json',
+				async: false,
+				data: JSON.stringify({
+					firstname: $("#firstname").val(),
+					lastname: $("#lastname").val(),
+					username: $("#username").val(),
+					email: $("#email").val(),
+					password: $("#password").val(),
+				}),
+				success: function () {
+					window.location.href = "/welcome";
+				},
+				error: function (xhr, ajaxOptions, thrownError){
+					console.log(xhr)
+					if(xhr.status==409){
+						alert("Cette adresse email est déjà utilisée.");
+					}else{
+						alert("Une erreur inconnue est survenue.");
+					}
+				} 
+			})
+		
+		}catch(err){
+			console.log(err);
+		}
+	}
+</script>
+
+</body>

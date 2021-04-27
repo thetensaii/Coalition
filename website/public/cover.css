@@ -1,0 +1,280 @@
+/*
+ * Globals
+ */
+
+
+/* Custom default button */
+.btn-secondary,
+.btn-secondary:hover,
+.btn-secondary:focus {
+  color: #333;
+  text-shadow: none; /* Prevent inheritance from `body` */
+}
+
+
+/*
+ * Base structure
+ */
+
+body {
+  text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
+  box-shadow: inset 0 0 5rem rgba(0, 0, 0, .5);
+  background-color: rgb(33, 37, 41);
+  font-family: Arial, Helvetica, sans-serif;
+  text-decoration: none;
+}
+
+.cover-container {
+  height: 100vh;
+  width: 100vh;
+}
+
+
+/*
+ * Header
+ */
+
+.nav-masthead .nav-link {
+  padding: .25rem 0;
+  font-weight: 700;
+  color: rgba(255, 255, 255, .5);
+  background-color: transparent;
+  border-bottom: .25rem solid transparent;
+}
+
+.nav-masthead .nav-link:hover,
+.nav-masthead .nav-link:focus {
+  border-bottom-color: rgba(255, 255, 255, .25);
+}
+
+.nav-masthead .nav-link + .nav-link {
+  margin-left: 1rem;
+}
+
+.nav-masthead .active {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+#small-text {
+  font-size: 10px;
+}
+
+.grosse-partie {
+  color: white;
+  text-decoration: none;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  padding-left: 30%;
+  padding-top: 10%;
+  text-align: center;
+  height: 50%;
+}
+
+.title {
+  transform: translateY(200%);
+  padding-left: 60%;
+  color: white;
+  font-weight: bolder;
+  font-size: 25px;
+}
+
+.div-link {
+  border: 1px;
+  text-decoration: none;
+  transform: translateY(60%);
+  padding-left: 125%;
+  width: 75vh;
+}
+
+.stylelink {
+  text-decoration: none;
+}
+
+.credits {
+  padding-top: 80%;
+  padding-left: 80%;
+  margin-right: -25%;
+}
+
+#title {
+  font-size: 40px;
+}
+
+.bouton-login {
+  padding: 15px;
+  margin-top: -55px;
+  margin-left: 25px;
+}
+
+#border-button {
+  background-color: white;
+  border: 5px white;
+  border-style: solid;
+  border-radius: 15px;
+  height: 40px;
+  width: 150px;
+  margin-left: 37%;
+}
+
+.textwhite {
+  color: white;
+}
+
+.login {
+  font-weight: 800;
+}
+
+.connexion {
+  color: white;
+  font-size: 25px;
+  align-content: center;
+  padding-left: 43%;
+}
+
+.form-style {
+  height: 25%;
+  padding-left: 40%;
+  padding-bottom: 5%;
+}
+
+#register {
+  margin-left: 42%;
+  padding-top: 10%;
+  color: white;
+}
+
+.form-field {
+  color: rgba(255, 255, 255, .5);
+}
+
+.field {
+  margin-top: 15px;
+  margin-left: 5%;
+}
+
+.bouton-send {
+  margin-left: 9%;
+  margin-top: 3%;
+}
+
+.field-individual {
+  padding-left: 10%;
+  margin-top: 15%;
+}
+
+#logout {
+  border: 1px solid black;
+  border-radius: 50px;
+  margin-left: 89%;
+  margin-top: 10px;
+}
+
+#header {
+  border-bottom: 1px solid white;
+  margin-bottom: 2%;
+}
+
+#titre {
+  width: auto;
+  transform: translateY(75%);
+  color: white;
+  font-size: 25px;
+  padding-left: 10%;
+}
+
+#image {
+  border: solid 1px transparent;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  margin-left: 90%;
+  margin-top: -3%;
+}
+
+#servers {
+  height: 40%;
+  width: 75%;
+  margin-left: 25%;
+  overflow-y: scroll;
+  
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(100px, 100px);
+
+  border-bottom: 1px solid white;
+  border-radius: 50px;
+}
+
+.server {
+  align-content: center;
+  padding-left: 15%;
+  color: rgba(255, 255, 255, .5);
+}
+
+#messages {
+  height: 40%;
+  width: 75%;
+  margin-left: 25%;
+  overflow-y: scroll;
+
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(100px, 100px);
+
+  border-bottom: 1px solid white;
+  border-radius: 50px;
+}
+
+.container-grid {
+  align-content: center;
+}
+
+.message {
+  align-content: center;
+  padding-left: 15%;
+  color: rgba(255, 255, 255, .5);
+}
+
+#friends {
+  width: 25%;
+  height: 80%;
+  transform: translateY(-100%);
+  overflow-y: scroll;
+}
+
+.friend {
+  margin-left: 25%;
+  transform: translateY(-200%);
+  font-size: 25px;
+}
+
+.imagefriend {
+  border: solid 1px transparent;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  margin: 5%;
+}
+
+.image-big {
+  border: solid 1px transparent;
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+  margin-top: 5%;
+  margin-left: 10%;
+  margin-bottom: 5%;
+}
+
+.header-small {
+  height: 20%;
+  margin-left: 15%;
+  margin-top: 15%;
+  text-align: center;
+  color: white;
+}

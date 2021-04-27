@@ -1,0 +1,16 @@
+{
+  "name": "Authentification",
+  "version": "1.0.0",
+  "description": "Authentification Service for Coalition",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.1",
+    "dotenv":"^8.2.0",
+    "request":"^2.88.2",
+    "randomstring":"^1.1.5",
+    "moment":"2.29.1"
+  }
+}
